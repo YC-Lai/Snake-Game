@@ -23,5 +23,10 @@
   "directory": "/home/aicenteruav/YC_Lai/Udacity/CppND/CppND-Capstone-Snake-Game/build",
   "command": "/usr/bin/g++-7 -I/usr/include/SDL2 -I../src -g   -std=c++17 -std=gnu++1z -o CMakeFiles/SnakeGame.dir/src/snake.cpp.o -c /home/aicenteruav/YC_Lai/Udacity/CppND/CppND-Capstone-Snake-Game/src/snake.cpp",
   "file": "/home/aicenteruav/YC_Lai/Udacity/CppND/CppND-Capstone-Snake-Game/src/snake.cpp"
+},
+{
+  "directory": "/home/aicenteruav/YC_Lai/Udacity/CppND/CppND-Capstone-Snake-Game/build",
+  "command": "/usr/bin/g++-7 -I/usr/include/SDL2 -I../src -g   -std=c++17 -std=gnu++1z -o CMakeFiles/SnakeGame.dir/src/bug.cpp.o -c /home/aicenteruav/YC_Lai/Udacity/CppND/CppND-Capstone-Snake-Game/src/bug.cpp",
+  "file": "/home/aicenteruav/YC_Lai/Udacity/CppND/CppND-Capstone-Snake-Game/src/bug.cpp"
 }
 ]

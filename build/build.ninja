@@ -101,6 +101,13 @@ build CMakeFiles/SnakeGame.dir/src/snake.cpp.o: CXX_COMPILER__SnakeGame_Debug ..
   OBJECT_DIR = CMakeFiles/SnakeGame.dir
   OBJECT_FILE_DIR = CMakeFiles/SnakeGame.dir/src
 
+build CMakeFiles/SnakeGame.dir/src/bug.cpp.o: CXX_COMPILER__SnakeGame_Debug ../src/bug.cpp || cmake_object_order_depends_target_SnakeGame
+  DEP_FILE = CMakeFiles/SnakeGame.dir/src/bug.cpp.o.d
+  FLAGS = -g   -std=c++17 -std=gnu++1z
+  INCLUDES = -I/usr/include/SDL2 -I../src
+  OBJECT_DIR = CMakeFiles/SnakeGame.dir
+  OBJECT_FILE_DIR = CMakeFiles/SnakeGame.dir/src
+
 
 # =============================================================================
 # Link build statements for EXECUTABLE target SnakeGame
@@ -109,7 +116,7 @@ build CMakeFiles/SnakeGame.dir/src/snake.cpp.o: CXX_COMPILER__SnakeGame_Debug ..
 #############################################
 # Link the executable SnakeGame
 
-build SnakeGame: CXX_EXECUTABLE_LINKER__SnakeGame_Debug CMakeFiles/SnakeGame.dir/src/main.cpp.o CMakeFiles/SnakeGame.dir/src/game.cpp.o CMakeFiles/SnakeGame.dir/src/controller.cpp.o CMakeFiles/SnakeGame.dir/src/renderer.cpp.o CMakeFiles/SnakeGame.dir/src/snake.cpp.o
+build SnakeGame: CXX_EXECUTABLE_LINKER__SnakeGame_Debug CMakeFiles/SnakeGame.dir/src/main.cpp.o CMakeFiles/SnakeGame.dir/src/game.cpp.o CMakeFiles/SnakeGame.dir/src/controller.cpp.o CMakeFiles/SnakeGame.dir/src/renderer.cpp.o CMakeFiles/SnakeGame.dir/src/snake.cpp.o CMakeFiles/SnakeGame.dir/src/bug.cpp.o
   FLAGS = -g
   LINK_LIBRARIES = -lSDL2
   OBJECT_DIR = CMakeFiles/SnakeGame.dir
