@@ -24,3 +24,8 @@
 0	429	1625554342	CMakeFiles/SnakeGame.dir/src/renderer.cpp.o	b17cfa5a6272697c
 0	493	1625554342	CMakeFiles/SnakeGame.dir/src/game.cpp.o	3daa25cba9aa7d4e
 493	547	1625554342	SnakeGame	e9ecfdc8fd25c5e0
+1	455	1626332722	CMakeFiles/SnakeGame.dir/src/controller.cpp.o	cce3e4f087db6b87
+0	466	1626332722	CMakeFiles/SnakeGame.dir/src/main.cpp.o	2eed03e43d1c0369
+1	471	1626332722	CMakeFiles/SnakeGame.dir/src/renderer.cpp.o	b17cfa5a6272697c
+0	526	1626332722	CMakeFiles/SnakeGame.dir/src/game.cpp.o	3daa25cba9aa7d4e
+526	594	1626332722	SnakeGame	e9ecfdc8fd25c5e0
