@@ -24,6 +24,7 @@ void Game::Run(Controller &controller, Renderer &renderer,
 
     auto running = std::make_shared<bool>(true);
     controller.running = running;
+    renderer.running = running;
 
     // Input
     controller.setSnake(snake);

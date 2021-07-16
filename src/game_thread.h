@@ -15,6 +15,10 @@ class GameThread {
 
     // typical behaviour methods
     virtual void runThread() = 0;
+    virtual void setSnake() = 0;
+    virtual void setFood() = 0;
+    virtual void setObstacle() = 0;
+    virtual void setTargetFrameDuration() = 0;
 
    protected:
     std::vector<std::thread> threads;  // holds all threads that have been launched within this object

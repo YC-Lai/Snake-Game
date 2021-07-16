@@ -39,6 +39,42 @@ Renderer::~Renderer() {
     SDL_Quit();
 }
 
+void Renderer::setSnake(std::shared_ptr<Snake> const &s) {
+    snake = s;
+}
+
+void Renderer::runThread() {
+    // launch control input function in a thread
+    threads.emplace_back(std::thread(&Renderer::controlRender, this));
+}
+
+void Renderer::controlRender() {
+    Uint32 title_timestamp = SDL_GetTicks(); /*Record the start time for input control*/
+
+    Uint32 frame_start;
+    Uint32 frame_end;
+    Uint32 frame_duration;
+
+    while (*running) { /*while the SDL Quit is not pressed, the running flag is always true*/
+
+        // sleep at every iteration to reduce CPU usage
+        std::this_thread::sleep_for(std::chrono::milliseconds(1));
+
+        frame_start = SDL_GetTicks(); /*Record the start time before the controller input*/
+        Renderer::Render(snake, food, bugs);    /*Call the input control function*/
+        frame_end = SDL_GetTicks();   /*Record the end time before the controller input*/
+
+        frame_duration = frame_end - frame_start; /*Calculate the duration for handling the input control*/
+
+        // If the time for this frame is too small (i.e. frame_duration is
+        // smaller than the target ms_per_frame), delay the loop to
+        // achieve the correct frame rate. to be removed .
+        if (frame_duration < target_frame_duration) {
+            SDL_Delay(target_frame_duration - frame_duration);
+        }
+    }
+}
+
 void Renderer::Render(std::shared_ptr<Snake> const snake, SDL_Point const &food, std::vector<SDL_Point> &bugs) {
     SDL_Rect block;
     block.w = screen_width / grid_width;
