@@ -2,6 +2,7 @@
 #define GAMETHREAD_H
 #include <mutex>
 #include <thread>
+#include <future>
 #include <vector>
 
 /**
@@ -14,7 +15,7 @@ class GameThread {
     ~GameThread();
 
    protected:
-    std::vector<std::thread> threads;  // holds all threads that have been launched within this object
+    std::vector<std::future<void>> futures;  // holds all threads that have been launched within this object
     static std::mutex _mtxSnake;       // mutex shared by all game objects for protecting the shared snake
     static std::mutex _mtxFood;        // mutex shared by all game objects for protecting the shared food
     static std::mutex _mtxCout;        // mutex shared by all game objects for protecting the shared cout

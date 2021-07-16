@@ -16,10 +16,14 @@ void Controller::ChangeDirection(Snake::Direction input,
         snake->direction = input;
     }
     lockSnake.unlock();
+    std::cout << "ChangeDirection update finish!" << std::endl;
     return;
 }
 
 void Controller::HandleInput() const {
+
+    std::this_thread::sleep_for(std::chrono::milliseconds(10));
+
     SDL_Event e;
     while (SDL_PollEvent(&e)) {
         if (e.type == SDL_QUIT) {
@@ -27,6 +31,7 @@ void Controller::HandleInput() const {
             *running = false;
             lockRunning.unlock();
         } else if (e.type == SDL_KEYDOWN) {
+            std::cout << "get key" << std::endl;
             switch (e.key.keysym.sym) {
                 case SDLK_UP:
                     ChangeDirection(Snake::Direction::kUp,

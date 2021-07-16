@@ -4,8 +4,9 @@
 #include <vector>
 
 #include "SDL.h"
+#include "game_thread.h"
 
-class Snake {
+class Snake : public GameThread {
    public:
     enum class Direction { kUp,
                            kDown,

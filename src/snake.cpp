@@ -3,6 +3,7 @@
 #include <iostream>
 
 void Snake::Update() {
+  std::unique_lock<std::mutex> lockSnake(_mtxSnake);
   SDL_Point prev_cell{
       static_cast<int>(head_x),
       static_cast<int>(

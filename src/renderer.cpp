@@ -55,7 +55,7 @@ void Renderer::Render(std::shared_ptr<Snake> const snake, Food &food, Obstacle &
     block.y = foodPoint.y * block.h;
     SDL_RenderFillRect(sdl_renderer, &block);
 
-    // Render bugs
+    // Render obstacle
     SDL_SetRenderDrawColor(sdl_renderer, 0xFF, 0x00, 0x00, 0xFF);
     auto obstaclePoints = obstacle.get_obstecle();
     for (SDL_Point const &obstacleP : obstaclePoints) {

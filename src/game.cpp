@@ -1,8 +1,9 @@
 #include "game.h"
 
+#include <algorithm>
 #include <iostream>
 #include <memory>
-#include <algorithm>
+#include <thread>
 
 #include "SDL.h"
 
@@ -25,7 +26,7 @@ void Game::Run(Controller &controller, Renderer &renderer,
     int frame_count = 0;
 
     auto running = std::make_shared<bool>(true);
-    
+
     // Setup controller
     controller.setSnake(snake);
     controller.running = running;
@@ -34,12 +35,16 @@ void Game::Run(Controller &controller, Renderer &renderer,
         frame_start = SDL_GetTicks();
 
         // Input, Update, Render - the main game loop.
-        threads.emplace_back(std::thread(&Controller::HandleInput, std::ref(controller)));
-        threads.emplace_back(std::thread(&Game::Update, this));
-        threads.emplace_back(std::thread(&Renderer::Render, std::ref(renderer), snake, std::ref(food), std::ref(obstacle)));
-        // std::for_each(threads.begin(), threads.end(), [](std::thread &t) {
-        //     t.join();
-        // });
+        futures.emplace_back(std::async(std::launch::async,
+                                        &Controller::HandleInput,
+                                        std::ref(controller)));
+        futures.emplace_back(
+            std::async(std::launch::async, &Game::Update, this));
+
+        std::for_each(futures.begin(), futures.end(),
+                      [](std::future<void> &ftr) { ftr.wait(); });
+
+        renderer.Render(snake, food, obstacle);
 
         frame_end = SDL_GetTicks();
 
@@ -65,7 +70,6 @@ void Game::Run(Controller &controller, Renderer &renderer,
 }
 
 void Game::Update() {
-    std::unique_lock<std::mutex> lockSnake(_mtxSnake);
     if (!snake->alive) return;
 
     snake->Update();
@@ -89,7 +93,6 @@ void Game::Update() {
         snake->GrowBody();
         snake->speed += 0.01;
     }
-    lockSnake.unlock();
 }
 
 int Game::GetScore() const { return score; }
