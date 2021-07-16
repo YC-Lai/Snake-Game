@@ -7,14 +7,17 @@
 #include "controller.h"
 #include "renderer.h"
 #include "snake.h"
+#include "game_thread.h"
 
-class Game {
+class Game : public GameThread {
  public:
   Game(std::size_t grid_width, std::size_t grid_height);
   void Run(Controller &controller, Renderer &renderer,
            std::size_t target_frame_duration);
   int GetScore() const;
   int GetSize() const;
+
+  void runThread() override;
 
  private:
   std::shared_ptr<Snake> snake;

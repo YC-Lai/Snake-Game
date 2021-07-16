@@ -1,6 +1,7 @@
 #include "game.h"
 
 #include <iostream>
+#include <memory>
 
 #include "SDL.h"
 
@@ -20,16 +21,23 @@ void Game::Run(Controller &controller, Renderer &renderer,
     Uint32 frame_end;
     Uint32 frame_duration;
     int frame_count = 0;
-    bool running = true;
 
-    while (running) {
+    auto running = std::make_shared<bool>(true);
+    controller.running = running;
+
+    // Input
+    controller.setSnake(snake);
+    controller.setTargetFrameDuration(target_frame_duration);
+    controller.runThread();
+
+    while (*running) {
         frame_start = SDL_GetTicks();
 
         // Input, Update, Render - the main game loop.
-        controller.setSnake(snake);
-        controller.HandleInput(running);
+        std::unique_lock<std::mutex> lockSnake(_mtxSnake);
         Update();
         renderer.Render(snake, food, bugs);
+        lockSnake.unlock();
 
         frame_end = SDL_GetTicks();
 
@@ -52,6 +60,11 @@ void Game::Run(Controller &controller, Renderer &renderer,
             SDL_Delay(target_frame_duration - frame_duration);
         }
     }
+}
+
+void Game::runThread() {
+    // launch control input function in a thread
+    threads.emplace_back(std::thread(&Game::Update, this));
 }
 
 void Game::PlaceFood() {
