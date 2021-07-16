@@ -2,16 +2,18 @@
 
 #include <iostream>
 #include <memory>
+#include <algorithm>
 
 #include "SDL.h"
 
 Game::Game(std::size_t grid_width, std::size_t grid_height)
     : snake(std::make_shared<Snake>(grid_width, grid_height)),
+      obstacle(grid_width, grid_height),
+      food(grid_width, grid_height),
       engine(dev()),
       random_w(0, static_cast<int>(grid_width - 1)),
       random_h(0, static_cast<int>(grid_height - 1)) {
-    PlaceFood();
-    PlaceBugs();
+    food.placeFood(snake);
 }
 
 void Game::Run(Controller &controller, Renderer &renderer,
@@ -23,27 +25,26 @@ void Game::Run(Controller &controller, Renderer &renderer,
     int frame_count = 0;
 
     auto running = std::make_shared<bool>(true);
-    controller.running = running;
-    renderer.running = running;
-
-    // Input
+    
+    // Setup controller
     controller.setSnake(snake);
-    controller.setTargetFrameDuration(target_frame_duration);
-    controller.runThread();
+    controller.running = running;
 
     while (*running) {
         frame_start = SDL_GetTicks();
 
         // Input, Update, Render - the main game loop.
-        std::unique_lock<std::mutex> lockSnake(_mtxSnake);
-        Update();
-        renderer.Render(snake, food, bugs);
-        lockSnake.unlock();
+        threads.emplace_back(std::thread(&Controller::HandleInput, std::ref(controller)));
+        threads.emplace_back(std::thread(&Game::Update, this));
+        threads.emplace_back(std::thread(&Renderer::Render, std::ref(renderer), snake, std::ref(food), std::ref(obstacle)));
+        // std::for_each(threads.begin(), threads.end(), [](std::thread &t) {
+        //     t.join();
+        // });
 
         frame_end = SDL_GetTicks();
 
-        // Keep track of how long each loop through the input/update/render cycle
-        // takes.
+        // Keep track of how long each loop through the input/update/render
+        // cycle takes.
         frame_count++;
         frame_duration = frame_end - frame_start;
 
@@ -63,46 +64,8 @@ void Game::Run(Controller &controller, Renderer &renderer,
     }
 }
 
-void Game::runThread() {
-    // launch control input function in a thread
-    threads.emplace_back(std::thread(&Game::Update, this));
-}
-
-void Game::PlaceFood() {
-    int x, y;
-    while (true) {
-        x = random_w(engine);
-        y = random_h(engine);
-        // Check that the location is not occupied by a snake item before placing
-        // food.
-        if (!snake->SnakeCell(x, y)) {
-            food.x = x;
-            food.y = y;
-            return;
-        }
-    }
-}
-
-void Game::PlaceBugs() {
-    for (size_t i = 0; i < 3; i++) {
-        int x, y;
-        SDL_Point bug;
-        while (true) {
-            x = random_w(engine);
-            y = random_h(engine);
-            // Check that the location is not occupied by a snake item & food before placing
-            // bug.
-            if (!snake->SnakeCell(x, y) && food.x != x && food.y != y) {
-                bug.x = x;
-                bug.y = y;
-                bugs.push_back(bug);
-                break;
-            }
-        }
-    }
-}
-
 void Game::Update() {
+    std::unique_lock<std::mutex> lockSnake(_mtxSnake);
     if (!snake->alive) return;
 
     snake->Update();
@@ -110,21 +73,23 @@ void Game::Update() {
     int new_x = static_cast<int>(snake->head_x);
     int new_y = static_cast<int>(snake->head_y);
 
-    // Check if there's a bug over here
-    for (auto &bug : bugs) {
-        if (bug.x == new_x && bug.y == new_y) {
-            snake->alive = false;
-        }
+    // Check if there's a obstacle over here
+    if (obstacle.ObstacleCell(new_x, new_y)) {
+        snake->alive = false;
     }
 
     // Check if there's food over here
-    if (food.x == new_x && food.y == new_y) {
+    auto foodPoint = food.get_food();
+    if (foodPoint.x == new_x && foodPoint.y == new_y) {
         score++;
-        PlaceFood();
+        std::unique_lock<std::mutex> lockFood(_mtxFood);
+        food.placeFood(snake);
+        lockFood.unlock();
         // Grow snake and increase speed.
         snake->GrowBody();
-        snake->speed += 0.02;
+        snake->speed += 0.01;
     }
+    lockSnake.unlock();
 }
 
 int Game::GetScore() const { return score; }

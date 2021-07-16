@@ -39,43 +39,7 @@ Renderer::~Renderer() {
     SDL_Quit();
 }
 
-void Renderer::setSnake(std::shared_ptr<Snake> const &s) {
-    snake = s;
-}
-
-void Renderer::runThread() {
-    // launch control input function in a thread
-    threads.emplace_back(std::thread(&Renderer::controlRender, this));
-}
-
-void Renderer::controlRender() {
-    Uint32 title_timestamp = SDL_GetTicks(); /*Record the start time for input control*/
-
-    Uint32 frame_start;
-    Uint32 frame_end;
-    Uint32 frame_duration;
-
-    while (*running) { /*while the SDL Quit is not pressed, the running flag is always true*/
-
-        // sleep at every iteration to reduce CPU usage
-        std::this_thread::sleep_for(std::chrono::milliseconds(1));
-
-        frame_start = SDL_GetTicks(); /*Record the start time before the controller input*/
-        Renderer::Render(snake, food, bugs);    /*Call the input control function*/
-        frame_end = SDL_GetTicks();   /*Record the end time before the controller input*/
-
-        frame_duration = frame_end - frame_start; /*Calculate the duration for handling the input control*/
-
-        // If the time for this frame is too small (i.e. frame_duration is
-        // smaller than the target ms_per_frame), delay the loop to
-        // achieve the correct frame rate. to be removed .
-        if (frame_duration < target_frame_duration) {
-            SDL_Delay(target_frame_duration - frame_duration);
-        }
-    }
-}
-
-void Renderer::Render(std::shared_ptr<Snake> const snake, SDL_Point const &food, std::vector<SDL_Point> &bugs) {
+void Renderer::Render(std::shared_ptr<Snake> const snake, Food &food, Obstacle &obstacle) {
     SDL_Rect block;
     block.w = screen_width / grid_width;
     block.h = screen_height / grid_height;
@@ -86,19 +50,22 @@ void Renderer::Render(std::shared_ptr<Snake> const snake, SDL_Point const &food,
 
     // Render food
     SDL_SetRenderDrawColor(sdl_renderer, 0xFF, 0xCC, 0x00, 0xFF);
-    block.x = food.x * block.w;
-    block.y = food.y * block.h;
+    auto foodPoint = food.get_food();
+    block.x = foodPoint.x * block.w;
+    block.y = foodPoint.y * block.h;
     SDL_RenderFillRect(sdl_renderer, &block);
 
     // Render bugs
     SDL_SetRenderDrawColor(sdl_renderer, 0xFF, 0x00, 0x00, 0xFF);
-    for (SDL_Point const &bug : bugs) {
-        block.x = bug.x * block.w;
-        block.y = bug.y * block.h;
+    auto obstaclePoints = obstacle.get_obstecle();
+    for (SDL_Point const &obstacleP : obstaclePoints) {
+        block.x = obstacleP.x * block.w;
+        block.y = obstacleP.y * block.h;
         SDL_RenderFillRect(sdl_renderer, &block);
     }
 
     // Render snake's body
+    std::unique_lock<std::mutex> lockSnake(_mtxSnake);
     SDL_SetRenderDrawColor(sdl_renderer, 0xFF, 0xFF, 0xFF, 0xFF);
     for (SDL_Point const &point : snake->body) {
         block.x = point.x * block.w;
@@ -115,7 +82,8 @@ void Renderer::Render(std::shared_ptr<Snake> const snake, SDL_Point const &food,
         SDL_SetRenderDrawColor(sdl_renderer, 0xFF, 0x00, 0x00, 0xFF);
     }
     SDL_RenderFillRect(sdl_renderer, &block);
-
+    lockSnake.unlock();
+    
     // Update Screen
     SDL_RenderPresent(sdl_renderer);
 }

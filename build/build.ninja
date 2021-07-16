@@ -101,8 +101,15 @@ build CMakeFiles/SnakeGame.dir/src/snake.cpp.o: CXX_COMPILER__SnakeGame_Debug ..
   OBJECT_DIR = CMakeFiles/SnakeGame.dir
   OBJECT_FILE_DIR = CMakeFiles/SnakeGame.dir/src
 
-build CMakeFiles/SnakeGame.dir/src/bug.cpp.o: CXX_COMPILER__SnakeGame_Debug ../src/bug.cpp || cmake_object_order_depends_target_SnakeGame
-  DEP_FILE = CMakeFiles/SnakeGame.dir/src/bug.cpp.o.d
+build CMakeFiles/SnakeGame.dir/src/obstacle.cpp.o: CXX_COMPILER__SnakeGame_Debug ../src/obstacle.cpp || cmake_object_order_depends_target_SnakeGame
+  DEP_FILE = CMakeFiles/SnakeGame.dir/src/obstacle.cpp.o.d
+  FLAGS = -std=c++17 -pthread -g   -std=c++17 -std=gnu++1z
+  INCLUDES = -I/usr/include/SDL2 -I../src
+  OBJECT_DIR = CMakeFiles/SnakeGame.dir
+  OBJECT_FILE_DIR = CMakeFiles/SnakeGame.dir/src
+
+build CMakeFiles/SnakeGame.dir/src/food.cpp.o: CXX_COMPILER__SnakeGame_Debug ../src/food.cpp || cmake_object_order_depends_target_SnakeGame
+  DEP_FILE = CMakeFiles/SnakeGame.dir/src/food.cpp.o.d
   FLAGS = -std=c++17 -pthread -g   -std=c++17 -std=gnu++1z
   INCLUDES = -I/usr/include/SDL2 -I../src
   OBJECT_DIR = CMakeFiles/SnakeGame.dir
@@ -123,7 +130,7 @@ build CMakeFiles/SnakeGame.dir/src/game_thread.cpp.o: CXX_COMPILER__SnakeGame_De
 #############################################
 # Link the executable SnakeGame
 
-build SnakeGame: CXX_EXECUTABLE_LINKER__SnakeGame_Debug CMakeFiles/SnakeGame.dir/src/main.cpp.o CMakeFiles/SnakeGame.dir/src/game.cpp.o CMakeFiles/SnakeGame.dir/src/controller.cpp.o CMakeFiles/SnakeGame.dir/src/renderer.cpp.o CMakeFiles/SnakeGame.dir/src/snake.cpp.o CMakeFiles/SnakeGame.dir/src/bug.cpp.o CMakeFiles/SnakeGame.dir/src/game_thread.cpp.o
+build SnakeGame: CXX_EXECUTABLE_LINKER__SnakeGame_Debug CMakeFiles/SnakeGame.dir/src/main.cpp.o CMakeFiles/SnakeGame.dir/src/game.cpp.o CMakeFiles/SnakeGame.dir/src/controller.cpp.o CMakeFiles/SnakeGame.dir/src/renderer.cpp.o CMakeFiles/SnakeGame.dir/src/snake.cpp.o CMakeFiles/SnakeGame.dir/src/obstacle.cpp.o CMakeFiles/SnakeGame.dir/src/food.cpp.o CMakeFiles/SnakeGame.dir/src/game_thread.cpp.o
   FLAGS = -std=c++17 -pthread -g
   LINK_LIBRARIES = -lSDL2
   OBJECT_DIR = CMakeFiles/SnakeGame.dir

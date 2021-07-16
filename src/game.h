@@ -8,6 +8,8 @@
 #include "renderer.h"
 #include "snake.h"
 #include "game_thread.h"
+#include "obstacle.h"
+#include "food.h"
 
 class Game : public GameThread {
  public:
@@ -17,12 +19,10 @@ class Game : public GameThread {
   int GetScore() const;
   int GetSize() const;
 
-  void runThread() override;
-
  private:
   std::shared_ptr<Snake> snake;
-  SDL_Point food;
-  std::vector<SDL_Point> bugs;
+  Food food;
+  Obstacle obstacle;
 
   std::random_device dev;
   std::mt19937 engine;
@@ -32,7 +32,6 @@ class Game : public GameThread {
   int score{0};
 
   void PlaceFood();
-  void PlaceBugs();
   void Update();
 };
 
