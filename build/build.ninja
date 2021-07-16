@@ -39,7 +39,7 @@ include CMakeFiles/rules.ninja
 # Utility command for rebuild_cache
 
 build CMakeFiles/rebuild_cache.util: CUSTOM_COMMAND
-  COMMAND = cd /home/aicenteruav/YC_Lai/Udacity/CppND/CppND-Capstone-Snake-Game/build && /home/aicenteruav/.local/lib/python3.6/site-packages/cmake/data/bin/cmake --regenerate-during-build -S/home/aicenteruav/YC_Lai/Udacity/CppND/CppND-Capstone-Snake-Game -B/home/aicenteruav/YC_Lai/Udacity/CppND/CppND-Capstone-Snake-Game/build
+  COMMAND = cd /home/aicenteruav/YC_Lai/Udacity/CppND/Snake-Game/build && /home/aicenteruav/.local/lib/python3.6/site-packages/cmake/data/bin/cmake --regenerate-during-build -S/home/aicenteruav/YC_Lai/Udacity/CppND/Snake-Game -B/home/aicenteruav/YC_Lai/Udacity/CppND/Snake-Game/build
   DESC = Running CMake to regenerate build system...
   pool = console
   restat = 1
@@ -51,7 +51,7 @@ build rebuild_cache: phony CMakeFiles/rebuild_cache.util
 # Utility command for edit_cache
 
 build CMakeFiles/edit_cache.util: CUSTOM_COMMAND
-  COMMAND = cd /home/aicenteruav/YC_Lai/Udacity/CppND/CppND-Capstone-Snake-Game/build && /home/aicenteruav/.local/lib/python3.6/site-packages/cmake/data/bin/cmake -E echo No\ interactive\ CMake\ dialog\ available.
+  COMMAND = cd /home/aicenteruav/YC_Lai/Udacity/CppND/Snake-Game/build && /home/aicenteruav/.local/lib/python3.6/site-packages/cmake/data/bin/cmake -E echo No\ interactive\ CMake\ dialog\ available.
   DESC = No interactive CMake dialog available...
   restat = 1
 
@@ -68,42 +68,49 @@ build cmake_object_order_depends_target_SnakeGame: phony || CMakeFiles/SnakeGame
 
 build CMakeFiles/SnakeGame.dir/src/main.cpp.o: CXX_COMPILER__SnakeGame_Debug ../src/main.cpp || cmake_object_order_depends_target_SnakeGame
   DEP_FILE = CMakeFiles/SnakeGame.dir/src/main.cpp.o.d
-  FLAGS = -g   -std=c++17 -std=gnu++1z
+  FLAGS = -std=c++17 -pthread -g   -std=c++17 -std=gnu++1z
   INCLUDES = -I/usr/include/SDL2 -I../src
   OBJECT_DIR = CMakeFiles/SnakeGame.dir
   OBJECT_FILE_DIR = CMakeFiles/SnakeGame.dir/src
 
 build CMakeFiles/SnakeGame.dir/src/game.cpp.o: CXX_COMPILER__SnakeGame_Debug ../src/game.cpp || cmake_object_order_depends_target_SnakeGame
   DEP_FILE = CMakeFiles/SnakeGame.dir/src/game.cpp.o.d
-  FLAGS = -g   -std=c++17 -std=gnu++1z
+  FLAGS = -std=c++17 -pthread -g   -std=c++17 -std=gnu++1z
   INCLUDES = -I/usr/include/SDL2 -I../src
   OBJECT_DIR = CMakeFiles/SnakeGame.dir
   OBJECT_FILE_DIR = CMakeFiles/SnakeGame.dir/src
 
 build CMakeFiles/SnakeGame.dir/src/controller.cpp.o: CXX_COMPILER__SnakeGame_Debug ../src/controller.cpp || cmake_object_order_depends_target_SnakeGame
   DEP_FILE = CMakeFiles/SnakeGame.dir/src/controller.cpp.o.d
-  FLAGS = -g   -std=c++17 -std=gnu++1z
+  FLAGS = -std=c++17 -pthread -g   -std=c++17 -std=gnu++1z
   INCLUDES = -I/usr/include/SDL2 -I../src
   OBJECT_DIR = CMakeFiles/SnakeGame.dir
   OBJECT_FILE_DIR = CMakeFiles/SnakeGame.dir/src
 
 build CMakeFiles/SnakeGame.dir/src/renderer.cpp.o: CXX_COMPILER__SnakeGame_Debug ../src/renderer.cpp || cmake_object_order_depends_target_SnakeGame
   DEP_FILE = CMakeFiles/SnakeGame.dir/src/renderer.cpp.o.d
-  FLAGS = -g   -std=c++17 -std=gnu++1z
+  FLAGS = -std=c++17 -pthread -g   -std=c++17 -std=gnu++1z
   INCLUDES = -I/usr/include/SDL2 -I../src
   OBJECT_DIR = CMakeFiles/SnakeGame.dir
   OBJECT_FILE_DIR = CMakeFiles/SnakeGame.dir/src
 
 build CMakeFiles/SnakeGame.dir/src/snake.cpp.o: CXX_COMPILER__SnakeGame_Debug ../src/snake.cpp || cmake_object_order_depends_target_SnakeGame
   DEP_FILE = CMakeFiles/SnakeGame.dir/src/snake.cpp.o.d
-  FLAGS = -g   -std=c++17 -std=gnu++1z
+  FLAGS = -std=c++17 -pthread -g   -std=c++17 -std=gnu++1z
   INCLUDES = -I/usr/include/SDL2 -I../src
   OBJECT_DIR = CMakeFiles/SnakeGame.dir
   OBJECT_FILE_DIR = CMakeFiles/SnakeGame.dir/src
 
 build CMakeFiles/SnakeGame.dir/src/bug.cpp.o: CXX_COMPILER__SnakeGame_Debug ../src/bug.cpp || cmake_object_order_depends_target_SnakeGame
   DEP_FILE = CMakeFiles/SnakeGame.dir/src/bug.cpp.o.d
-  FLAGS = -g   -std=c++17 -std=gnu++1z
+  FLAGS = -std=c++17 -pthread -g   -std=c++17 -std=gnu++1z
+  INCLUDES = -I/usr/include/SDL2 -I../src
+  OBJECT_DIR = CMakeFiles/SnakeGame.dir
+  OBJECT_FILE_DIR = CMakeFiles/SnakeGame.dir/src
+
+build CMakeFiles/SnakeGame.dir/src/game_thread.cpp.o: CXX_COMPILER__SnakeGame_Debug ../src/game_thread.cpp || cmake_object_order_depends_target_SnakeGame
+  DEP_FILE = CMakeFiles/SnakeGame.dir/src/game_thread.cpp.o.d
+  FLAGS = -std=c++17 -pthread -g   -std=c++17 -std=gnu++1z
   INCLUDES = -I/usr/include/SDL2 -I../src
   OBJECT_DIR = CMakeFiles/SnakeGame.dir
   OBJECT_FILE_DIR = CMakeFiles/SnakeGame.dir/src
@@ -116,8 +123,8 @@ build CMakeFiles/SnakeGame.dir/src/bug.cpp.o: CXX_COMPILER__SnakeGame_Debug ../s
 #############################################
 # Link the executable SnakeGame
 
-build SnakeGame: CXX_EXECUTABLE_LINKER__SnakeGame_Debug CMakeFiles/SnakeGame.dir/src/main.cpp.o CMakeFiles/SnakeGame.dir/src/game.cpp.o CMakeFiles/SnakeGame.dir/src/controller.cpp.o CMakeFiles/SnakeGame.dir/src/renderer.cpp.o CMakeFiles/SnakeGame.dir/src/snake.cpp.o CMakeFiles/SnakeGame.dir/src/bug.cpp.o
-  FLAGS = -g
+build SnakeGame: CXX_EXECUTABLE_LINKER__SnakeGame_Debug CMakeFiles/SnakeGame.dir/src/main.cpp.o CMakeFiles/SnakeGame.dir/src/game.cpp.o CMakeFiles/SnakeGame.dir/src/controller.cpp.o CMakeFiles/SnakeGame.dir/src/renderer.cpp.o CMakeFiles/SnakeGame.dir/src/snake.cpp.o CMakeFiles/SnakeGame.dir/src/bug.cpp.o CMakeFiles/SnakeGame.dir/src/game_thread.cpp.o
+  FLAGS = -std=c++17 -pthread -g
   LINK_LIBRARIES = -lSDL2
   OBJECT_DIR = CMakeFiles/SnakeGame.dir
   POST_BUILD = :
@@ -134,7 +141,7 @@ build SnakeGame: CXX_EXECUTABLE_LINKER__SnakeGame_Debug CMakeFiles/SnakeGame.dir
 # =============================================================================
 
 #############################################
-# Folder: /home/aicenteruav/YC_Lai/Udacity/CppND/CppND-Capstone-Snake-Game/build
+# Folder: /home/aicenteruav/YC_Lai/Udacity/CppND/Snake-Game/build
 
 build all: phony SnakeGame
 
