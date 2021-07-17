@@ -9,12 +9,12 @@
 
 Game::Game(std::size_t grid_width, std::size_t grid_height)
     : snake(std::make_shared<Snake>(grid_width, grid_height)),
-      obstacle(grid_width, grid_height),
-      food(grid_width, grid_height),
-      engine(dev()),
-      random_w(0, static_cast<int>(grid_width - 1)),
-      random_h(0, static_cast<int>(grid_height - 1)) {
+      food(grid_width, grid_height) {
     food.placeFood(snake);
+    
+    for (size_t i = 0; i < 5; i++) {
+        obstacles.emplace_back(grid_width, grid_height);
+    }
 }
 
 void Game::Run(Controller &controller, Renderer &renderer,
@@ -36,15 +36,13 @@ void Game::Run(Controller &controller, Renderer &renderer,
 
         // Input, Update, Render - the main game loop.
         futures.emplace_back(std::async(std::launch::async,
-                                        &Controller::HandleInput,
-                                        std::ref(controller)));
+                                        &Controller::HandleInput, &controller));
         futures.emplace_back(
             std::async(std::launch::async, &Game::Update, this));
-
         std::for_each(futures.begin(), futures.end(),
                       [](std::future<void> &ftr) { ftr.wait(); });
 
-        renderer.Render(snake, food, obstacle);
+        renderer.Render(snake, food, obstacles);
 
         frame_end = SDL_GetTicks();
 
@@ -73,14 +71,22 @@ void Game::Update() {
     if (!snake->alive) return;
 
     snake->Update();
+    for (auto &obs : obstacles) {
+        obs.Update();
+    }
 
     int new_x = static_cast<int>(snake->head_x);
     int new_y = static_cast<int>(snake->head_y);
 
     // Check if there's a obstacle over here
-    if (obstacle.ObstacleCell(new_x, new_y)) {
-        snake->alive = false;
+    std::unique_lock<std::mutex> lockObstacle(_mtxObstacle);
+    for (auto &obs : obstacles) {
+        if (obs.ObstacleCell(new_x, new_y)) {
+            snake->alive = false;
+            break;
+        }
     }
+    lockObstacle.unlock();
 
     // Check if there's food over here
     auto foodPoint = food.get_food();
@@ -89,9 +95,12 @@ void Game::Update() {
         std::unique_lock<std::mutex> lockFood(_mtxFood);
         food.placeFood(snake);
         lockFood.unlock();
+
         // Grow snake and increase speed.
+        std::unique_lock<std::mutex> lockSnake(_mtxSnake);
         snake->GrowBody();
         snake->speed += 0.01;
+        lockSnake.unlock();
     }
 }
 

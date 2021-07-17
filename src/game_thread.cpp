@@ -3,15 +3,11 @@
 #include <algorithm>
 #include <iostream>
 
-// std::mutex GameThread::_mtx;
-std::mutex GameThread::_mtxSnake;    // mutex shared by all game Threads for
-                                     // protecting the shared snake
-std::mutex GameThread::_mtxFood;     // mutex shared by all game Threads for
-                                     // protecting the shared food
-std::mutex GameThread::_mtxCout;     // mutex shared by all game Threads for
-                                     // protecting the shared cout
-std::mutex GameThread::_mtxRunning;  // mutex shared by all game Threads for
-                                     // protecting the shared SDL
+// This share the same mutex to all inherited classes
+std::mutex GameThread::_mtxSnake;
+std::mutex GameThread::_mtxFood;
+std::mutex GameThread::_mtxObstacle;
+std::mutex GameThread::_mtxRunning;
 
 GameThread::~GameThread() {
     // set up thread barrier before this Thread is destroyed

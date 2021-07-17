@@ -8,10 +8,7 @@
 
 class Snake : public GameThread {
    public:
-    enum class Direction { kUp,
-                           kDown,
-                           kLeft,
-                           kRight };
+    enum class Direction { kUp, kDown, kLeft, kRight };
 
     Snake(int grid_width, int grid_height)
         : grid_width(grid_width),
@@ -19,7 +16,7 @@ class Snake : public GameThread {
           head_x(grid_width / 2),
           head_y(grid_height / 2) {}
 
-    virtual void Update();
+    void Update();
 
     void GrowBody();
     bool SnakeCell(int x, int y);
@@ -33,10 +30,8 @@ class Snake : public GameThread {
     float head_y;
     std::vector<SDL_Point> body;
 
-   protected:
-    virtual void UpdateHead();
-
    private:
+    void UpdateHead();
     void UpdateBody(SDL_Point &current_cell, SDL_Point &prev_cell);
 
     bool growing{false};

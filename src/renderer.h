@@ -16,11 +16,10 @@ class Renderer : public GameThread {
              const std::size_t grid_width, const std::size_t grid_height);
     ~Renderer();
 
-    void Render(std::shared_ptr<Snake> const snake, Food &food, Obstacle &obstacle);
+    void Render(std::shared_ptr<Snake> const snake, Food &food, std::vector<Obstacle> &obstacles);
     void UpdateWindowTitle(int score, int fps);
 
    private:
-    std::shared_ptr<Snake> snake;
 
     SDL_Window *sdl_window;
     SDL_Renderer *sdl_renderer;

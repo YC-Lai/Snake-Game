@@ -15,11 +15,11 @@ class GameThread {
     ~GameThread();
 
    protected:
-    std::vector<std::future<void>> futures;  // holds all threads that have been launched within this object
-    static std::mutex _mtxSnake;       // mutex shared by all game objects for protecting the shared snake
-    static std::mutex _mtxFood;        // mutex shared by all game objects for protecting the shared food
-    static std::mutex _mtxCout;        // mutex shared by all game objects for protecting the shared cout
-    static std::mutex _mtxRunning;     // mutex shared by all game objects for protecting the shared running Flag
+    std::vector<std::future<void>> futures;  
+    static std::mutex _mtxSnake;       
+    static std::mutex _mtxFood;       
+    static std::mutex _mtxObstacle;        
+    static std::mutex _mtxRunning; 
 
    private:
 };
