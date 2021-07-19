@@ -1,3 +1,0 @@
-/home/aicenteruav/YC_Lai/Udacity/CppND/Snake-Game/build/CMakeFiles/rebuild_cache.dir
-/home/aicenteruav/YC_Lai/Udacity/CppND/Snake-Game/build/CMakeFiles/edit_cache.dir
-/home/aicenteruav/YC_Lai/Udacity/CppND/Snake-Game/build/CMakeFiles/SnakeGame.dir
