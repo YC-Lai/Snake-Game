@@ -13,6 +13,32 @@ This Snake Game is based on stater [repo](https://github.com/udacity/CppND-Capst
 
 ## Project's Class Structure
 
+```bash
+.
+├── cmake
+│   └── FindSDL2_image.cmake
+├── CMakeLists.txt
+├── LICENSE.md
+├── README.md
+├── snake_game.gif
+├── snake_game_new.gif
+└── src
+    ├── controller.cpp
+    ├── controller.h
+    ├── food.cpp
+    ├── food.h
+    ├── game.cpp
+    ├── game.h
+    ├── game_thread.cpp
+    ├── game_thread.h
+    ├── main.cpp
+    ├── obstacle.cpp
+    ├── obstacle.h
+    ├── renderer.cpp
+    ├── renderer.h
+    ├── snake.cpp
+    └── snake.h
+```
 ## Dependencies for Running Locally
 
 - cmake >= 3.7
