@@ -1,4 +1,4 @@
-# CPPND: Capstone Snake Game Example
+# CPPND: Capstone Snake Game
 
 This Snake Game is based on stater [repo](https://github.com/udacity/CppND-Capstone-Snake-Game) for the Capstone project in the [Udacity C++ Nanodegree Program](https://www.udacity.com/course/c-plus-plus-nanodegree--nd213). The current project improve the original classes, and add some new features such as:
 
