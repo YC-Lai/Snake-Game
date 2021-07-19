@@ -22,7 +22,7 @@ class Game : public GameThread {
     int GetSize() const;
 
    private:
-    std::vector<Obstacle> obstacles;
+    std::vector<std::shared_ptr<Obstacle>> obstacles;
     std::shared_ptr<Snake> snake;
     Food food;
 

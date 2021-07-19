@@ -39,7 +39,9 @@ Renderer::~Renderer() {
     SDL_Quit();
 }
 
-void Renderer::Render(std::shared_ptr<Snake> const snake, Food &food, std::vector<Obstacle> &obstacles) {
+void Renderer::Render(std::shared_ptr<Snake> const snake,
+                      Food &food,
+                      std::vector<std::shared_ptr<Obstacle>> &obstacles) {
     SDL_Rect block;
     block.w = screen_width / grid_width;
     block.h = screen_height / grid_height;
@@ -60,9 +62,9 @@ void Renderer::Render(std::shared_ptr<Snake> const snake, Food &food, std::vecto
     // Render obstacle
     std::unique_lock<std::mutex> lockObstacle(_mtxObstacle);
     SDL_SetRenderDrawColor(sdl_renderer, 0xFF, 0x00, 0x00, 0xFF);
-    
+
     for (auto &obstacle : obstacles) {
-        auto obstacleP = obstacle.get_obstecle();
+        auto obstacleP = obstacle->get_obstecle();
         block.x = obstacleP.x * block.w;
         block.y = obstacleP.y * block.h;
         SDL_RenderFillRect(sdl_renderer, &block);
@@ -89,7 +91,7 @@ void Renderer::Render(std::shared_ptr<Snake> const snake, Food &food, std::vecto
     }
     SDL_RenderFillRect(sdl_renderer, &block);
     lockSnake.unlock();
-    
+
     // Update Screen
     SDL_RenderPresent(sdl_renderer);
 }

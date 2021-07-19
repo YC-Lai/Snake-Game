@@ -5,7 +5,6 @@
 #include "SDL.h"
 
 void Obstacle::Update() {
-    direction = Direction(random_dir(engine));
     switch (direction) {
         case Direction::Up:
             _y -= speed;
@@ -32,38 +31,20 @@ void Obstacle::Update() {
 }
 
 void Obstacle::placeObstacle() {
-    // SDL_Point point;
     obstaclePoint.x = _x;
     obstaclePoint.y = _y;
-    // obstaclePoints.push_back(point);
-
-    // for (int i = 0; i < grid_width / 8; i++) {
-    //     point.x = i + (grid_width / 4);
-    //     point.y = grid_height / 3;
-    //     obstaclePoints.push_back(point);
-    // }
-
-    // for (int i = 0; i < grid_width / 8; i++) {
-    //     point.x = i + (grid_width / 4);
-    //     point.y = 2 * (grid_height / 3);
-    //     obstaclePoints.push_back(point);
-    // }
 }
 
 void Obstacle::initPlace() {
     _x = random_w(engine);
     _y = random_h(engine);
+    direction = Direction(random_dir(engine));
 }
 
 SDL_Point Obstacle::get_obstecle() { return obstaclePoint; }
 
 bool Obstacle::ObstacleCell(int x, int y) {
-    // for (auto const &item : obstaclePoints) {
-    //     if (x == item.x && y == item.y) {
-    //         return true;
-    //     }
-    // }
-    if (x == _x && y == _y) {
+    if (x == obstaclePoint.x && y == obstaclePoint.y) {
         return true;
     }
     return false;

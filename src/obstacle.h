@@ -10,7 +10,10 @@
 
 class Obstacle {
    public:
-    enum class Direction { Up, Down, Left, Right };
+    enum class Direction { Up,
+                           Down,
+                           Left,
+                           Right };
 
     Obstacle(std::size_t grid_width, std::size_t grid_height)
         : engine(dev()),
@@ -20,7 +23,7 @@ class Obstacle {
         this->grid_width = grid_width;
         this->grid_height = grid_height;
         initPlace();
-    };
+    }
 
     SDL_Point get_obstecle();
     bool ObstacleCell(int x, int y);
@@ -33,8 +36,8 @@ class Obstacle {
     SDL_Point obstaclePoint;
     size_t grid_width;
     size_t grid_height;
-    float speed{0.1f};
-    Direction direction = Direction::Up;
+    float speed{0.03f};
+    Direction direction;
     float _x;
     float _y;
 

@@ -11,9 +11,10 @@ Game::Game(std::size_t grid_width, std::size_t grid_height)
     : snake(std::make_shared<Snake>(grid_width, grid_height)),
       food(grid_width, grid_height) {
     food.placeFood(snake);
-    
-    for (size_t i = 0; i < 5; i++) {
-        obstacles.emplace_back(grid_width, grid_height);
+
+    for (size_t i = 0; i < 3; i++) {
+        auto obstacle = std::make_shared<Obstacle>(grid_width, grid_height);
+        obstacles.emplace_back(obstacle);
     }
 }
 
@@ -71,9 +72,6 @@ void Game::Update() {
     if (!snake->alive) return;
 
     snake->Update();
-    for (auto &obs : obstacles) {
-        obs.Update();
-    }
 
     int new_x = static_cast<int>(snake->head_x);
     int new_y = static_cast<int>(snake->head_y);
@@ -81,11 +79,17 @@ void Game::Update() {
     // Check if there's a obstacle over here
     std::unique_lock<std::mutex> lockObstacle(_mtxObstacle);
     for (auto &obs : obstacles) {
-        if (obs.ObstacleCell(new_x, new_y)) {
+        if (obs->ObstacleCell(new_x, new_y)) {
+            std::cout << "collision !" << std::endl;
             snake->alive = false;
             break;
         }
     }
+
+    for (auto &obs : obstacles) {
+        obs->Update();
+    }
+    
     lockObstacle.unlock();
 
     // Check if there's food over here
